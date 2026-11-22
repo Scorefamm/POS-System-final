@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Store POS - Transaction #SQ-1048</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand-box">
+        <i class="ph ph-game-controller brand-icon"></i>
+        <div>
+          <div style="font-weight: 700; font-size: 15px;">Game Store</div>
+          <div style="font-size: 12px; color: #A6A0B2;">POS name here</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-shopping-cart"></i> Point of sale</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-cube"></i> Game catalog</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-plus-circle"></i> Product Listing</a></li>
+        <li class="nav-item active"><a href="sales-history.html"><i class="ph ph-clock-counter-clockwise"></i> Sales history</a></li>
+        <li class="nav-item"><a href="index.html#analytics"><i class="ph ph-chart-bar"></i> Analytics</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-users"></i> Customers</a></li>
+      </ul>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item"><a href="#"><i class="ph ph-gear"></i> Settings</a></li>
+      <li class="nav-item"><a href="#"><i class="ph ph-question"></i> Help & shortcuts</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <i class="ph ph-bell" style="font-size: 20px; color: var(--text-muted);"></i>
+      <div style="text-align: right;">
+        <div style="font-weight: 700; font-size: 14px;">User 1</div>
+        <div style="font-size: 12px; color: var(--text-muted);">Store manager</div>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <div style="margin-bottom: 16px;">
+        <a href="sales-history.html" class="tx-link" style="font-size: 13px;">← Back to sales history</a>
+      </div>
+
+      <div class="page-header">
+        <div class="page-title">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <h1>Transaction #SQ-1048</h1>
+            <span id="statusBadge" class="badge badge-paid">Paid</span>
+          </div>
+          <p>Nov 21, 2026 at 10:42 AM · Downtown store · Register 01</p>
+        </div>
+      </div>
+
+      <div class="grid-2-1">
+        <!-- Left Column -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+              <h3>Purchased items</h3>
+              <span style="font-size: 13px; color: var(--text-muted);">2 items</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Unit price</th>
+                  <th>Qty</th>
+                  <th style="text-align: right;">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div style="font-weight: 600;">The Legend of Zelda: Breath of the Wild</div>
+                    <div style="margin-top: 4px;">
+                      <span class="badge badge-pending" style="font-size: 10px;">SWITCH 1</span>
+                      <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">SKU NSW-ZELDA-BOTW</span>
+                    </div>
+                  </td>
+                  <td>Php 2,595.00</td>
+                  <td>1</td>
+                  <td style="text-align: right; font-weight: 600;">Php 2,595.00</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div style="font-weight: 600;">Mario Kart 8</div>
+                    <div style="margin-top: 4px;">
+                      <span class="badge badge-pending" style="font-size: 10px;">SWITCH 1</span>
+                      <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">SKU NSW-MK8</span>
+                    </div>
+                  </td>
+                  <td>Php 2,595.00</td>
+                  <td>1</td>
+                  <td style="text-align: right; font-weight: 600;">Php 2,595.00</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 16px;">All items sold in new condition.</div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 16px;">Payment information</h3>
+            <div class="grid-3" style="margin-bottom: 12px;">
+              <div>
+                <div class="metric-label">PAYMENT METHOD</div>
+                <strong>Visa ending in 4242</strong>
+              </div>
+              <div>
+                <div class="metric-label">PAYMENT STATUS</div>
+                <strong id="paymentStatusText">Captured</strong>
+              </div>
+              <div>
+                <div class="metric-label">PROCESSED BY</div>
+                <strong>User 1</strong>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted);">Authorization 083921 · Payment ID PAY-SQ1048</div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 16px;">Transaction activity</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px; font-size: 13px;">
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <strong>● Payment captured</strong>
+                  <div style="color: var(--text-muted); margin-left: 12px;">Visa •• 4242 · Php 2,283.96</div>
+                </div>
+                <span style="color: var(--text-muted);">10:42 AM</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <strong>● Receipt printed</strong>
+                  <div style="color: var(--text-muted); margin-left: 12px;">Register 01</div>
+                </div>
+                <span style="color: var(--text-muted);">10:42 AM</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <strong style="color: var(--primary);">● Sale completed</strong>
+                  <div style="color: var(--text-muted); margin-left: 12px;">Processed by User 1</div>
+                </div>
+                <span style="color: var(--text-muted);">10:42 AM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="card">
+            <h3 style="margin-bottom: 16px;">Order summary</h3>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+              <span style="color: var(--text-muted);">Subtotal (2 items)</span>
+              <span>Php 2,595.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+              <span style="color: var(--text-muted);">Discount</span>
+              <span>Php 0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+              <span style="color: var(--text-muted);">Sales tax (12%)</span>
+              <span>Php 311.40</span>
+            </div>
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+              <strong>Total paid</strong>
+              <span class="metric-value" style="font-size: 26px;">Php 2,283.96</span>
+            </div>
+            <div style="font-size: 12px; color: var(--success-green); margin-bottom: 16px;">Paid in full with Visa •• 4242</div>
+
+            <button id="refundBtn" onclick="simulateRefund()" class="btn btn-secondary" style="width: 100%; justify-content: center;">
+              ↺ Issue refund
+            </button>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px; text-align: center;">
+              Refunds return to the original payment method.
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 8px;">Customer</h3>
+            <div style="font-weight: 600;">Walk-in customer</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin: 4px 0 16px 0;">No customer profile linked to this sale.</div>
+            <button onclick="alert('Customer lookup modal will open here')" class="btn btn-secondary" style="width: 100%; justify-content: center;">
+              + Link customer
+            </button>
+          </div>
+
+          <div class="card card-lime">
+            <div style="font-weight: 700; font-size: 14px;">✓ Inventory is up to date</div>
+            <div style="font-size: 12px; margin-top: 4px;">2 items deducted from Downtown stock.</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    <!-- Placeholder for Issuing Refunds -->
+    function simulateRefund() {
+      if (confirm('Are you sure you want to issue a refund for #SQ-1048?')) {
+        const badge = document.getElementById('statusBadge');
+        badge.innerText = 'Refunded';
+        badge.className = 'badge badge-refunded';
+        document.getElementById('paymentStatusText').innerText = 'Refunded';
+        document.getElementById('refundBtn').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

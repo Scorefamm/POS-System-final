@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Store POS - Dashboard</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand-box">
+        <i class="ph ph-game-controller brand-icon"></i>
+        <div>
+          <div style="font-weight: 700; font-size: 15px;">Game Store</div>
+          <div style="font-size: 12px; color: #A6A0B2;">POS name here</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <ul class="nav-list">
+        <li class="nav-item active"><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-shopping-cart"></i> Point of sale</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-cube"></i> Game catalog</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-plus-circle"></i> Product Listing</a></li>
+        <li class="nav-item"><a href="sales-history.html"><i class="ph ph-clock-counter-clockwise"></i> Sales history</a></li>
+        <li class="nav-item"><a href="#analytics"><i class="ph ph-chart-bar"></i> Analytics</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-users"></i> Customers</a></li>
+      </ul>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item"><a href="#"><i class="ph ph-gear"></i> Settings</a></li>
+      <li class="nav-item"><a href="#"><i class="ph ph-question"></i> Help & shortcuts</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <i class="ph ph-bell" style="font-size: 20px; color: var(--text-muted);"></i>
+      <div style="text-align: right;">
+        <div style="font-weight: 700; font-size: 14px;">User 1</div>
+        <div style="font-size: 12px; color: var(--text-muted);">Store manager</div>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <div class="page-header">
+        <div class="page-title">
+          <h1>Dashboard</h1>
+          <p>Friday, 20 Nov 2026</p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button class="btn btn-secondary"><i class="ph ph-calendar-blank"></i> Nov 21, 2026</button>
+          <a href="#" class="btn btn-primary">+ New sale</a>
+        </div>
+      </div>
+
+      <!-- 4 Metric Cards -->
+      <div class="grid-4">
+        <div class="card card-purple">
+          <div class="metric-label">Total sales</div>
+          <div class="metric-value">Php 14,260</div>
+          <div class="metric-trend">↗ 12.8% <span style="color: var(--text-muted); font-weight: 400;">vs. yesterday</span></div>
+        </div>
+        <div class="card">
+          <div class="metric-label">Transactions</div>
+          <div class="metric-value">32</div>
+          <div class="metric-trend">↗ 8.0% <span style="color: var(--text-muted); font-weight: 400;">vs. yesterday</span></div>
+        </div>
+        <div class="card">
+          <div class="metric-label">Average order</div>
+          <div class="metric-value">Php 1,100.25</div>
+          <div class="metric-trend">↗ 4.4% <span style="color: var(--text-muted); font-weight: 400;">vs. yesterday</span></div>
+        </div>
+        <div class="card">
+          <div class="metric-label">Items sold</div>
+          <div class="metric-value">47</div>
+          <div class="metric-trend">↗ 17.5% <span style="color: var(--text-muted); font-weight: 400;">vs. yesterday</span></div>
+        </div>
+      </div>
+
+      <!-- Chart & Console Share -->
+      <div class="grid-2-1" id="analytics">
+        <div class="card">
+          <div style="margin-bottom: 16px;">
+            <h3 style="font-size: 16px;">Sales performance</h3>
+            <div style="font-size: 24px; font-weight: 700; margin-top: 4px;">
+              Php 14,260 <span style="font-size: 12px; color: var(--success-green); font-weight: 500;">↑ 9.6% from previous 7 days</span>
+            </div>
+          </div>
+          <canvas id="salesChart" height="100"></canvas>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size: 16px;">What's selling</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px;">Share of sales · Today</p>
+          <div style="display: flex; height: 14px; border-radius: 6px; overflow: hidden; margin-bottom: 24px;">
+            <div style="width: 52%; background: #7254C9;"></div>
+            <div style="width: 28%; background: #9B82E0;"></div>
+            <div style="width: 20%; background: #D4C7F5;"></div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 16px; font-size: 14px;">
+            <div style="display: flex; justify-content: space-between;"><span><span style="color: #7254C9;">●</span> Nintendo Switch 1</span><strong>52%</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span><span style="color: #9B82E0;">●</span> Nintendo Switch 2</span><strong>28%</strong></div>
+            <div style="display: flex; justify-content: space-between;"><span><span style="color: #D4C7F5;">●</span> PlayStation 5</span><strong>14%</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Transactions & Top Sellers -->
+      <div class="grid-2-1">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 style="font-size: 16px;">Recent transactions</h3>
+            <a href="sales-history.html" class="tx-link" style="font-size: 13px;">View all sales →</a>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Transaction</th>
+                <th>Time</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th style="text-align: right;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="transaction-detail.html" class="tx-link">#SQ-1048</a></td>
+                <td>10:42 AM</td>
+                <td>Visa •• 4242</td>
+                <td><span class="badge badge-paid">Paid</span></td>
+                <td style="text-align: right; font-weight: 600;">Php 998.12</td>
+              </tr>
+              <tr>
+                <td><a href="transaction-detail.html" class="tx-link">#SQ-1047</a></td>
+                <td>10:36 AM</td>
+                <td>Cash</td>
+                <td><span class="badge badge-paid">Paid</span></td>
+                <td style="text-align: right; font-weight: 600;">Php 1,400.20</td>
+              </tr>
+              <tr>
+                <td><a href="transaction-detail.html" class="tx-link">#SQ-1044</a></td>
+                <td>10:11 AM</td>
+                <td>Visa •• 6704</td>
+                <td><span class="badge badge-refunded">Refunded</span></td>
+                <td style="text-align: right; font-weight: 600;">Php 2,199.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size: 16px;">Top sellers</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Today's favorites</p>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; background: var(--accent-lime);">01</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 14px;">Mario Kart 8</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Nintendo Switch 1</div>
+                </div>
+              </div>
+              <span style="font-size: 13px; color: var(--text-muted);">8 sold</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; background: var(--primary-light);">02</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 14px;">Pokopia</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Nintendo Switch 2</div>
+                </div>
+              </div>
+              <span style="font-size: 13px; color: var(--text-muted);">5 sold</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; background: var(--primary-light);">03</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 14px;">GTA VI</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">PlayStation</div>
+                </div>
+              </div>
+              <span style="font-size: 13px; color: var(--text-muted);">4 sold</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
