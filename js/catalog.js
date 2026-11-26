@@ -1,24 +1,3 @@
-/* ==========================================================
-   GAME CATALOG – detail popup
-   ----------------------------------------------------------
-   Click any game card or the top banner to open its popup.
-
-   HOW TO ADD / EDIT A GAME
-   1. Find (or add) its entry in GAMES below.
-   2. The key is the card's title in lowercase, with every run of
-      symbols/spaces turned into "-"  e.g. "Mario Kart 8 Deluxe"
-      -> "mario-kart-8-deluxe". (Or put data-game="your-key" on
-      the card to set the key yourself.)
-   3. TRAILER: paste a YouTube link or the 11-character video ID,
-      or a local file such as "videos/gta-vi.mp4".
-      The trailer starts playing automatically when the popup opens.
-      Leave it "" and the popup just shows the photo.
-   4. PRICE: set price (a number, in Php). Games without a price show
-      "Price TBA" and can't be added to the cart.
-   The popup banner automatically reuses the card's photo, so you
-   only need to add each image once.
-   ========================================================== */
-
 const GAMES = {
   /* ---------------- PLAYSTATION ---------------- */
   'grand-theft-auto-vi': {
