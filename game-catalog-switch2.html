@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Store POS - Game Catalog (Switch 2)</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand-box">
+        <i class="ph ph-game-controller brand-icon"></i>
+        <div>
+          <div style="font-weight: 700; font-size: 15px;">Game Store</div>
+          <div style="font-size: 12px; color: #A6A0B2;">POS name here</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-shopping-cart"></i> Point of sale</a></li>
+        <li class="nav-item active"><a href="game-catalog.html"><i class="ph ph-cube"></i> Game catalog</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-plus-circle"></i> Product Listing</a></li>
+        <li class="nav-item"><a href="sales-history.html"><i class="ph ph-clock-counter-clockwise"></i> Sales history</a></li>
+        <li class="nav-item"><a href="index.html#analytics"><i class="ph ph-chart-bar"></i> Analytics</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-users"></i> Customers</a></li>
+      </ul>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item"><a href="#"><i class="ph ph-gear"></i> Settings</a></li>
+      <li class="nav-item"><a href="#"><i class="ph ph-question"></i> Help &amp; shortcuts</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <i class="ph ph-bell" style="font-size: 20px; color: var(--text-muted);"></i>
+      <div style="text-align: right;">
+        <div style="font-weight: 700; font-size: 14px;">User 1</div>
+        <div style="font-size: 12px; color: var(--text-muted);">Store manager</div>
+      </div>
+      <i class="ph ph-caret-down" style="color: var(--text-muted);"></i>
+    </header>
+
+    <main class="content-area">
+      <div class="page-header">
+        <div class="page-title">
+          <h1>Game Catalog</h1>
+          <p>Curated game selections</p>
+        </div>
+        <div class="catalog-actions">
+          <div class="search-box">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" class="input-control" placeholder="Search by title or console...">
+          </div>
+          <button type="button" class="btn btn-primary" id="cart-open"><i class="ph ph-shopping-cart"></i> Cart <span class="cart-badge empty" id="cart-count">0</span></button>
+        </div>
+      </div>
+
+      <!-- Featured banner -->
+      <div class="catalog-banner">
+        <img src="images/zelda-ocarina-of-time-banner.jpg" alt="The Legend of Zelda: Ocarina of Time" onerror="this.style.display='none'">
+        <div class="catalog-banner-text">
+          <small>New Release</small>
+          <h2><i class="ph-fill ph-star-four" style="font-size: 18px;"></i> The Legend of Zelda: Ocarina of Time</h2>
+        </div>
+      </div>
+
+      <!-- Console tabs -->
+      <nav class="console-tabs">
+        <a href="game-catalog.html" class="console-tab">Playstation</a>
+        <a href="game-catalog-switch1.html" class="console-tab">Switch 1</a>
+        <a href="game-catalog-switch2.html" class="console-tab active">Switch 2</a>
+      </nav>
+
+      <!-- Game grid -->
+      <div class="catalog-grid">
+        <div class="catalog-card" data-game="pokemon-pokopia">
+          <img src="images/pokopia.jpg" alt="" onerror="this.style.display='none'">
+          <h3>Pokémon Pokopia</h3>
+          <i class="ph ph-eye catalog-card-icon"></i>
+        </div>
+        <div class="catalog-card">
+          <img src="images/hyrule-warriors.jpg" alt="" onerror="this.style.display='none'">
+          <h3>Hyrule Warriors: Age of Imprisonment</h3>
+          <i class="ph ph-eye catalog-card-icon"></i>
+        </div>
+        <div class="catalog-card">
+          <img src="images/switch-sports-resort.jpg" alt="" onerror="this.style.display='none'">
+          <h3>Nintendo Switch Sports Resort</h3>
+          <i class="ph ph-eye catalog-card-icon"></i>
+        </div>
+        <div class="catalog-card" data-game="fire-emblem-fortune-s-weave">
+          <img src="images/fire-emblem-fortunes-weave.jpg" alt="" onerror="this.style.display='none'">
+          <h3>Fire Emblem: Fortune&#39;s Weave</h3>
+          <i class="ph ph-eye catalog-card-icon"></i>
+        </div>
+        <div class="catalog-card">
+          <img src="images/kirby-air-riders.jpg" alt="" onerror="this.style.display='none'">
+          <h3>Kirby Air Riders</h3>
+          <i class="ph ph-eye catalog-card-icon"></i>
+        </div>
+        <div class="catalog-card">
+          <img src="images/splatoon-raiders.jpg" alt="" onerror="this.style.display='none'">
+          <h3>Splatoon Raiders</h3>
+          <i class="ph ph-eye catalog-card-icon"></i>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/catalog.js"></script>
+</body>
+</html>
