@@ -2,9 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Game Store POS - Transaction #SQ-1048</title>
+  <title>Game Store POS - Checkout</title>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .pay-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .pay-btn {
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .pay-btn.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .cust-id-badge {
+      height: 44px;
+      border-radius: 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--primary);
+      user-select: none;
+    }
+  </style>
 </head>
 <body>
   <!-- SIDEBAR -->
@@ -21,19 +57,11 @@
       <div class="nav-label">Workspace</div>
       <ul class="nav-list">
         <li class="nav-item"><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
-        <li class="nav-item"><a href="#"><i class="ph ph-shopping-cart"></i> Point of sale</a></li>
-        <li class="nav-item"><a href="game-catalog.html"><i class="ph ph-cube"></i> Game catalog</a></li>
-        <li class="nav-item"><a href="#"><i class="ph ph-plus-circle"></i> Product Listing</a></li>
+        <li class="nav-item active"><a href="game-catalog.html"><i class="ph ph-cube"></i> POS & Catalog</a></li>
         <li class="nav-item"><a href="sales-history.html"><i class="ph ph-clock-counter-clockwise"></i> Sales history</a></li>
         <li class="nav-item"><a href="index.html#analytics"><i class="ph ph-chart-bar"></i> Analytics</a></li>
-        <li class="nav-item"><a href="#"><i class="ph ph-users"></i> Customers</a></li>
       </ul>
     </div>
-
-    <ul class="nav-list">
-      <li class="nav-item"><a href="#"><i class="ph ph-gear"></i> Settings</a></li>
-      <li class="nav-item"><a href="#"><i class="ph ph-question"></i> Help & shortcuts</a></li>
-    </ul>
   </aside>
 
   <!-- MAIN CONTENT -->
@@ -53,9 +81,8 @@
 
       <div class="page-header">
         <div class="page-title">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <h1>My Cart</h1>
-          </div>
+          <h1>Checkout</h1>
+          <p>Review items, record customer info, and select payment mode.</p>
         </div>
       </div>
 
@@ -81,20 +108,23 @@
             <div style="font-size: 12px; color: var(--text-muted); margin-top: 16px;">All items sold in new condition.</div>
           </div>
 
+          <!-- Customer Info Card -->
+          <div class="card">
+            <h3 style="margin-bottom: 12px;">Customer Information</h3>
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px;">
+              <div id="custIdDisplay" class="cust-id-badge" title="Auto-generated Customer ID">CUST-001</div>
+              <input type="text" id="custName" class="input-control" placeholder="Customer Name (leave blank for Walk-in)">
+            </div>
+          </div>
+
+          <!-- Payment Method Card -->
           <div class="card">
             <h3 style="margin-bottom: 16px;">Payment Method</h3>
-            <div class="grid-3" style="margin-bottom: 12px;">
-              <div>
-                <div class="metric-label">
-                  <button id="refundBtn" class="btn btn-secondary" style="width: 30%; justify-content: center;">Card</button>
-                </div>
-              </div>
-              <div>
-                <div class="metric-label"><button id="refundBtn" class="btn btn-secondary" style="width: 30%; justify-content: center;">Gcash</button></div>
-              </div>
-              <div>
-                <div class="metric-label"><button id="refundBtn" class="btn btn-secondary" style="width: 30%; justify-content: center;">Paypal</button></div></div>
-              </div>
+            <div class="pay-options">
+              <button type="button" class="pay-btn selected" onclick="selectPayment(this, 'Cash')">Cash</button>
+              <button type="button" class="pay-btn" onclick="selectPayment(this, 'Card')">Card</button>
+              <button type="button" class="pay-btn" onclick="selectPayment(this, 'GCash')">GCash</button>
+              <button type="button" class="pay-btn" onclick="selectPayment(this, 'PayPal')">PayPal</button>
             </div>
           </div>
         </div>
@@ -116,11 +146,11 @@
               <span id="taxValue">Php 0.00</span>
             </div>
             <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
-            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
               <strong>Total price</strong>
               <span id="totalValue" class="metric-value" style="font-size: 26px;">Php 0.00</span>
             </div>
-            <button id="refundBtn" class="btn btn-secondary" style="width: 100%; justify-content: center;">
+            <button type="button" onclick="placeOrder()" class="btn btn-primary" style="width: 100%; justify-content: center;">
               Place Order
             </button>
           </div>
@@ -130,93 +160,123 @@
   </div>
 
   <script>
-    /* Fills the cart page from the cart saved by js/catalog.js */
-    (function () {
-      const CART_KEY = 'gamestore-cart'; // must match CART_KEY in js/catalog.js
-      const TAX_RATE = 0.12;
+    const CART_KEY = 'gamestore-cart';
+    const TAX_RATE = 0.12;
+    let selectedPayment = 'Cash';
+    let customerCount = parseInt(localStorage.getItem('gamestore-customer-count') || '0', 10);
 
-      // platform name saved in the cart -> badge text and SKU prefix
-      const PLATFORMS = {
-        'PlayStation 5': { badge: 'PS5', sku: 'PS5' },
-        'Nintendo Switch': { badge: 'SWITCH 1', sku: 'NSW' },
-        'Nintendo Switch 2': { badge: 'SWITCH 2', sku: 'NSW2' }
-      };
+    const PLATFORMS = {
+      'PlayStation 5': { badge: 'PS5', sku: 'PS5' },
+      'Nintendo Switch': { badge: 'SWITCH 1', sku: 'NSW' },
+      'Nintendo Switch 2': { badge: 'SWITCH 2', sku: 'NSW2' }
+    };
 
-      const byId = (id) => document.getElementById(id);
+    const byId = (id) => document.getElementById(id);
+    const money = (n) => 'Php ' + n.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const plural = (n) => n + (n === 1 ? ' item' : ' items');
 
-      const money = (n) => 'Php ' + n.toLocaleString('en-PH', {
-        minimumFractionDigits: 2, maximumFractionDigits: 2
+    function formatCustomerId(num) {
+      return 'CUST-' + String(num).padStart(3, '0');
+    }
+
+    function updateCustomerIdDisplay() {
+      byId('custIdDisplay').textContent = formatCustomerId(customerCount + 1);
+    }
+
+    function selectPayment(btn, method) {
+      document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedPayment = method;
+    }
+
+    function loadCart() {
+      try {
+        const data = JSON.parse(localStorage.getItem(CART_KEY));
+        return data && typeof data === 'object' ? data : {};
+      } catch (e) { return {}; }
+    }
+
+    function buildRow(key, item) {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>
+          <div class="item-title" style="font-weight: 600;"></div>
+          <div style="margin-top: 4px;">
+            <span class="badge badge-pending" style="font-size: 10px;"></span>
+            <span class="item-sku" style="font-size: 11px; color: var(--text-muted); margin-left: 6px;"></span>
+          </div>
+        </td>
+        <td class="item-price"></td>
+        <td class="item-qty"></td>
+        <td class="item-total" style="text-align: right; font-weight: 600;"></td>`;
+
+      const platform = PLATFORMS[item.platform] || { badge: item.platform || 'GAME', sku: 'GAME' };
+      row.querySelector('.item-title').textContent = item.title;
+      row.querySelector('.badge').textContent = platform.badge;
+      row.querySelector('.item-sku').textContent = 'SKU ' + platform.sku + '-' + key.toUpperCase();
+      row.querySelector('.item-price').textContent = money(item.price);
+      row.querySelector('.item-qty').textContent = item.qty;
+      row.querySelector('.item-total').textContent = money(item.price * item.qty);
+      return row;
+    }
+
+    function renderCartPage() {
+      const cart = loadCart();
+      const rows = byId('cartRows');
+      let count = 0;
+      let subtotal = 0;
+
+      rows.innerHTML = '';
+      Object.keys(cart).forEach((key) => {
+        const item = cart[key];
+        rows.appendChild(buildRow(key, item));
+        count += item.qty;
+        subtotal += item.price * item.qty;
       });
 
-      const plural = (n) => n + (n === 1 ? ' item' : ' items');
-
-      function loadCart() {
-        try {
-          const data = JSON.parse(localStorage.getItem(CART_KEY));
-          return data && typeof data === 'object' ? data : {};
-        } catch (e) { return {}; }
+      if (count === 0) {
+        rows.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Your cart is empty. Add a game from the game catalog.</td></tr>';
       }
 
-      function buildRow(key, item) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>
-            <div class="item-title" style="font-weight: 600;"></div>
-            <div style="margin-top: 4px;">
-              <span class="badge badge-pending" style="font-size: 10px;"></span>
-              <span class="item-sku" style="font-size: 11px; color: var(--text-muted); margin-left: 6px;"></span>
-            </div>
-          </td>
-          <td class="item-price"></td>
-          <td class="item-qty"></td>
-          <td class="item-total" style="text-align: right; font-weight: 600;"></td>`;
+      const tax = Math.round(subtotal * TAX_RATE * 100) / 100;
+      byId('itemCount').textContent = plural(count);
+      byId('subtotalLabel').textContent = 'Subtotal (' + plural(count) + ')';
+      byId('subtotalValue').textContent = money(subtotal);
+      byId('taxValue').textContent = money(tax);
+      byId('totalValue').textContent = money(subtotal + tax);
+    }
 
-        const platform = PLATFORMS[item.platform] || { badge: item.platform || 'GAME', sku: 'GAME' };
-        row.querySelector('.item-title').textContent = item.title;
-        row.querySelector('.badge').textContent = platform.badge;
-        row.querySelector('.item-sku').textContent = 'SKU ' + platform.sku + '-' + key.toUpperCase();
-        row.querySelector('.item-price').textContent = money(item.price);
-        row.querySelector('.item-qty').textContent = item.qty;
-        row.querySelector('.item-total').textContent = money(item.price * item.qty);
-        return row;
+    function placeOrder() {
+      const cart = loadCart();
+      if (Object.keys(cart).length === 0) {
+        alert('Your cart is empty!');
+        return;
       }
 
-      function renderCartPage() {
-        const cart = loadCart();
-        const rows = byId('cartRows');
-        let count = 0;
-        let subtotal = 0;
+      const custId = formatCustomerId(customerCount + 1);
+      const custName = byId('custName').value.trim() || 'Walk-in customer';
 
-        rows.innerHTML = '';
-        Object.keys(cart).forEach((key) => {
-          const item = cart[key];
-          rows.appendChild(buildRow(key, item));
-          count += item.qty;
-          subtotal += item.price * item.qty;
-        });
+      alert(`Order Confirmed!\nCustomer ID: ${custId}\nCustomer Name: ${custName}\nPayment Method: ${selectedPayment}\n\n(Teammate: connect backend POST & receipt printout here)`);
 
-        if (count === 0) {
-          rows.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Your cart is empty. Add a game from the game catalog.</td></tr>';
-        }
+      customerCount += 1;
+      localStorage.setItem('gamestore-customer-count', customerCount);
+      localStorage.removeItem(CART_KEY);
 
-        const discount = 0;
-        const tax = Math.round((subtotal - discount) * TAX_RATE * 100) / 100;
-
-        byId('itemCount').textContent = plural(count);
-        byId('subtotalLabel').textContent = 'Subtotal (' + plural(count) + ')';
-        byId('subtotalValue').textContent = money(subtotal);
-        byId('taxValue').textContent = money(tax);
-        byId('totalValue').textContent = money(subtotal - discount + tax);
-      }
-
-      // refresh if the cart changes in another tab, or when returning with Back
-      window.addEventListener('storage', (e) => {
-        if (e.key === CART_KEY || e.key === null) renderCartPage();
-      });
-      window.addEventListener('pageshow', renderCartPage);
-
+      byId('custName').value = '';
+      updateCustomerIdDisplay();
       renderCartPage();
-    })();
+    }
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === CART_KEY || e.key === null) renderCartPage();
+    });
+    window.addEventListener('pageshow', () => {
+      updateCustomerIdDisplay();
+      renderCartPage();
+    });
+
+    updateCustomerIdDisplay();
+    renderCartPage();
   </script>
 </body>
 </html>
