@@ -218,18 +218,5 @@
       renderCartPage();
     })();
   </script>
-
-  <script>
-    <!-- Placeholder for Issuing Refunds -->
-    function simulateRefund() {
-      if (confirm('Are you sure you want to issue a refund for #SQ-1048?')) {
-        const badge = document.getElementById('statusBadge');
-        badge.innerText = 'Refunded';
-        badge.className = 'badge badge-refunded';
-        document.getElementById('paymentStatusText').innerText = 'Refunded';
-        document.getElementById('refundBtn').style.display = 'none';
-      }
-    }
-  </script>
 </body>
 </html>
