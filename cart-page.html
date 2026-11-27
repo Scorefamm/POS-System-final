@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Store POS - Transaction #SQ-1048</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand-box">
+        <i class="ph ph-game-controller brand-icon"></i>
+        <div>
+          <div style="font-weight: 700; font-size: 15px;">Game Store</div>
+          <div style="font-size: 12px; color: #A6A0B2;">POS name here</div>
+        </div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html"><i class="ph ph-squares-four"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-shopping-cart"></i> Point of sale</a></li>
+        <li class="nav-item"><a href="game-catalog.html"><i class="ph ph-cube"></i> Game catalog</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-plus-circle"></i> Product Listing</a></li>
+        <li class="nav-item"><a href="sales-history.html"><i class="ph ph-clock-counter-clockwise"></i> Sales history</a></li>
+        <li class="nav-item"><a href="index.html#analytics"><i class="ph ph-chart-bar"></i> Analytics</a></li>
+        <li class="nav-item"><a href="#"><i class="ph ph-users"></i> Customers</a></li>
+      </ul>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item"><a href="#"><i class="ph ph-gear"></i> Settings</a></li>
+      <li class="nav-item"><a href="#"><i class="ph ph-question"></i> Help & shortcuts</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <i class="ph ph-bell" style="font-size: 20px; color: var(--text-muted);"></i>
+      <div style="text-align: right;">
+        <div style="font-weight: 700; font-size: 14px;">User 1</div>
+        <div style="font-size: 12px; color: var(--text-muted);">Store manager</div>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <div style="margin-bottom: 16px;">
+        <a href="game-catalog.html" class="tx-link" style="font-size: 13px;">← Back to game catalog</a>
+      </div>
+
+      <div class="page-header">
+        <div class="page-title">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <h1>My Cart</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2-1">
+        <!-- Left Column -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+              <h3>Items</h3>
+              <span id="itemCount" style="font-size: 13px; color: var(--text-muted);">0 items</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Unit price</th>
+                  <th>Qty</th>
+                  <th style="text-align: right;">Price</th>
+                </tr>
+              </thead>
+              <tbody id="cartRows"></tbody>
+            </table>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 16px;">All items sold in new condition.</div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 16px;">Payment Method</h3>
+            <div class="grid-3" style="margin-bottom: 12px;">
+              <div>
+                <div class="metric-label">
+                  <button id="refundBtn" class="btn btn-secondary" style="width: 30%; justify-content: center;">Card</button>
+                </div>
+              </div>
+              <div>
+                <div class="metric-label"><button id="refundBtn" class="btn btn-secondary" style="width: 30%; justify-content: center;">Gcash</button></div>
+              </div>
+              <div>
+                <div class="metric-label"><button id="refundBtn" class="btn btn-secondary" style="width: 30%; justify-content: center;">Paypal</button></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="card">
+            <h3 style="margin-bottom: 16px;">Order summary</h3>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+              <span id="subtotalLabel" style="color: var(--text-muted);">Subtotal (0 items)</span>
+              <span id="subtotalValue">Php 0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+              <span style="color: var(--text-muted);">Discount</span>
+              <span>Php 0.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px;">
+              <span style="color: var(--text-muted);">Sales tax (12%)</span>
+              <span id="taxValue">Php 0.00</span>
+            </div>
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+              <strong>Total price</strong>
+              <span id="totalValue" class="metric-value" style="font-size: 26px;">Php 0.00</span>
+            </div>
+            <button id="refundBtn" class="btn btn-secondary" style="width: 100%; justify-content: center;">
+              Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    /* Fills the cart page from the cart saved by js/catalog.js */
+    (function () {
+      const CART_KEY = 'gamestore-cart'; // must match CART_KEY in js/catalog.js
+      const TAX_RATE = 0.12;
+
+      // platform name saved in the cart -> badge text and SKU prefix
+      const PLATFORMS = {
+        'PlayStation 5': { badge: 'PS5', sku: 'PS5' },
+        'Nintendo Switch': { badge: 'SWITCH 1', sku: 'NSW' },
+        'Nintendo Switch 2': { badge: 'SWITCH 2', sku: 'NSW2' }
+      };
+
+      const byId = (id) => document.getElementById(id);
+
+      const money = (n) => 'Php ' + n.toLocaleString('en-PH', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+      });
+
+      const plural = (n) => n + (n === 1 ? ' item' : ' items');
+
+      function loadCart() {
+        try {
+          const data = JSON.parse(localStorage.getItem(CART_KEY));
+          return data && typeof data === 'object' ? data : {};
+        } catch (e) { return {}; }
+      }
+
+      function buildRow(key, item) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>
+            <div class="item-title" style="font-weight: 600;"></div>
+            <div style="margin-top: 4px;">
+              <span class="badge badge-pending" style="font-size: 10px;"></span>
+              <span class="item-sku" style="font-size: 11px; color: var(--text-muted); margin-left: 6px;"></span>
+            </div>
+          </td>
+          <td class="item-price"></td>
+          <td class="item-qty"></td>
+          <td class="item-total" style="text-align: right; font-weight: 600;"></td>`;
+
+        const platform = PLATFORMS[item.platform] || { badge: item.platform || 'GAME', sku: 'GAME' };
+        row.querySelector('.item-title').textContent = item.title;
+        row.querySelector('.badge').textContent = platform.badge;
+        row.querySelector('.item-sku').textContent = 'SKU ' + platform.sku + '-' + key.toUpperCase();
+        row.querySelector('.item-price').textContent = money(item.price);
+        row.querySelector('.item-qty').textContent = item.qty;
+        row.querySelector('.item-total').textContent = money(item.price * item.qty);
+        return row;
+      }
+
+      function renderCartPage() {
+        const cart = loadCart();
+        const rows = byId('cartRows');
+        let count = 0;
+        let subtotal = 0;
+
+        rows.innerHTML = '';
+        Object.keys(cart).forEach((key) => {
+          const item = cart[key];
+          rows.appendChild(buildRow(key, item));
+          count += item.qty;
+          subtotal += item.price * item.qty;
+        });
+
+        if (count === 0) {
+          rows.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Your cart is empty. Add a game from the game catalog.</td></tr>';
+        }
+
+        const discount = 0;
+        const tax = Math.round((subtotal - discount) * TAX_RATE * 100) / 100;
+
+        byId('itemCount').textContent = plural(count);
+        byId('subtotalLabel').textContent = 'Subtotal (' + plural(count) + ')';
+        byId('subtotalValue').textContent = money(subtotal);
+        byId('taxValue').textContent = money(tax);
+        byId('totalValue').textContent = money(subtotal - discount + tax);
+      }
+
+      // refresh if the cart changes in another tab, or when returning with Back
+      window.addEventListener('storage', (e) => {
+        if (e.key === CART_KEY || e.key === null) renderCartPage();
+      });
+      window.addEventListener('pageshow', renderCartPage);
+
+      renderCartPage();
+    })();
+  </script>
+
+  <script>
+    <!-- Placeholder for Issuing Refunds -->
+    function simulateRefund() {
+      if (confirm('Are you sure you want to issue a refund for #SQ-1048?')) {
+        const badge = document.getElementById('statusBadge');
+        badge.innerText = 'Refunded';
+        badge.className = 'badge badge-refunded';
+        document.getElementById('paymentStatusText').innerText = 'Refunded';
+        document.getElementById('refundBtn').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

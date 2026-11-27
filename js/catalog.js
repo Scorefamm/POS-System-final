@@ -369,6 +369,7 @@ document.querySelectorAll('.catalog-card, .catalog-banner').forEach((el) => {
    - "Add to Cart" in a game popup adds 1 copy (click again for more)
    - The Cart button (top right) opens the cart: change quantities,
      remove items, see the item count and the total amount
+   - The "Clear cart" button opens cart-page.html (items are kept)
    - Saved in the browser (localStorage), so it follows the cashier
      across the PlayStation / Switch 1 / Switch 2 pages
    ========================================================== */
@@ -434,7 +435,7 @@ cartDrawer.innerHTML = `
   <div class="cart-footer">
     <div class="cart-row"><span>Items</span><strong id="cart-qty">0</strong></div>
     <div class="cart-row cart-total"><span>Total</span><strong id="cart-total">Php 0.00</strong></div>
-    <button class="btn btn-quiet" id="cart-clear">Clear cart</button>
+    <button class="btn btn-quiet" id="cart-clear">Checkout</button>
   </div>`;
 document.body.appendChild(cartOverlay);
 document.body.appendChild(cartDrawer);
@@ -516,7 +517,7 @@ if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCart);
 $('cart-close').addEventListener('click', closeCart);
 cartOverlay.addEventListener('click', closeCart);
 $('cart-clear').addEventListener('click', () => {
-  if (confirm('Remove everything from the cart?')) { cart = {}; saveCart(); renderCart(); }
+  window.location.href = 'cart-page.html';
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && cartDrawer.classList.contains('open')) closeCart();
